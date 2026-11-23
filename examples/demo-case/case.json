@@ -1,0 +1,23 @@
+{
+ "case_id": "demo-product-arena-09-0e8befd4",
+ "topic_id": "product-arena-09-0e8befd4",
+ "topic_title": "阅读14｜Nanopublication",
+ "difficulty": 3,
+ "domain": "reading",
+ "task_instruction": "演示用例：请把同目录下的合成论文结论拆成单一可判断真假的断言，为每条断言绑定最小充分证据与段落定位，登记来源元数据并做质量检查，输出可机器读取的 Nanopublication 结构；无法判断或来源缺失写入 uncertainties。",
+ "output_contract": {
+  "case_id": "原样保留",
+  "case_identifiers": "输入标识 :: `case_id`、`paper_id`、`material_version` 与本次输入一致。 | 子字段: case_id, material_version, paper_id",
+  "assertions": "科研断言 :: 每项含 assertion_id、text（单一事实）、subject、predicate、object、polarity、conditions、evidence（paragraph_id + quote）、evidence_level（direct/inferred）、source_id。",
+  "evidence": "证据与来源定位 :: 每条证据含 evidence_id、paragraph_id、quote（原文逐字片段）、locator；直接证据与间接推论分开。",
+  "source_metadata": "来源元数据 :: 论文标识/DOI、标题、作者、年份、版本、数据来源与许可证；缺失字段留空并写入 uncertainties。",
+  "nanopublication": "Nanopublication 结构 :: 断言集合、证据集合、来源与序列化形态，下游程序可直接解析。",
+  "quality_checks": "质量检查 :: 逐条记录断言过宽、证据不足、主体混淆、关系方向错误、来源缺失及判定依据。",
+  "coverage": "覆盖范围 :: 已读段落、未读部分及原因。",
+  "status": "answered|partial|insufficient_evidence|unsupported",
+  "uncertainties": "未报告、无法判断、源内冲突和人工复核项"
+ },
+ "evaluation": {
+  "mode": "demo"
+ }
+}
