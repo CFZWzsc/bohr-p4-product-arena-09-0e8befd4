@@ -1,0 +1,110 @@
+{
+  "_comment": [
+    "阶段 B 的判断文件模板。复制到 /app/work/agent_judgement.json 后按实际材料填写。",
+    "quote 必须是材料里的逐字片段 —— 脚本会逐条校验，找不到就退回。",
+    "case_id 必须与 /input/case.json 里的 case_id 一致。",
+    "本题示例为合成材料，不是正式案例结果。"
+  ],
+  "case_id": "demo-product-arena-09-0e8befd4",
+  "claims": [
+    {
+      "text": "PC-A retained 92 % of its initial capacitance after 5000 cycles at 1 A/g.",
+      "kind": "reported",
+      "evidence": [
+        {"paragraph_id": "P004", "quote": "the PC-A electrode retained 92 % of its initial capacitance after 5000 cycles"}
+      ]
+    },
+    {
+      "text": "The activated carbon baseline retained 78 % under the same conditions.",
+      "kind": "reported",
+      "evidence": [
+        {"paragraph_id": "P004", "quote": "the activated carbon baseline retained only 78 % under the same conditions"}
+      ]
+    },
+    {
+      "text": "PC-B retained 85 % of its initial capacitance after 5000 cycles at 2 A/g in an organic electrolyte.",
+      "kind": "reported",
+      "evidence": [
+        {"paragraph_id": "P005", "quote": "PC-B retained 85 % of its initial capacitance after 5000 cycles"}
+      ]
+    }
+  ],
+  "answers": [
+    {
+      "question": "What retention values and conditions are reported?",
+      "answer": "PC-A: 92 % after 5000 cycles at 1 A/g; activated carbon baseline: 78 % under the same conditions; PC-B: 85 % after 5000 cycles at 2 A/g in an organic electrolyte.",
+      "evidence": [
+        {"paragraph_id": "P004", "quote": "the PC-A electrode retained 92 % of its initial capacitance after 5000 cycles"},
+        {"paragraph_id": "P005", "quote": "PC-B retained 85 % of its initial capacitance after 5000 cycles"}
+      ]
+    }
+  ],
+  "deliverable": "Five assertions: A1 PC-A 92 % at 1 A/g; A2 baseline 78 % under the same conditions; A3 PC-A exceeds baseline (inferred from A1+A2); A4 PC-B 85 % at 2 A/g in organic electrolyte; A5 the paper suggests the resorcinol-derived pore structure is more stable (inferred). Conditions are attached to each assertion and inference is marked separately.",
+  "contract_fields": {
+    "assertions": [
+      {"assertion_id": "A1", "text": "PC-A retained 92 % of its initial capacitance after 5000 cycles at 1 A/g.",
+       "subject": "PC-A", "predicate": "retains_capacitance", "object": "92 %", "polarity": "positive",
+       "conditions": ["1 A/g", "5000 cycles"],
+       "evidence": [{"paragraph_id": "P004", "quote": "the PC-A electrode retained 92 % of its initial capacitance after 5000 cycles"}],
+       "evidence_level": "direct", "source_id": "10.5555/demo.2024.009"},
+      {"assertion_id": "A2", "text": "The activated carbon baseline retained 78 % under the same conditions.",
+       "subject": "activated carbon baseline", "predicate": "retains_capacitance", "object": "78 %", "polarity": "positive",
+       "conditions": ["same conditions as A1", "1 A/g", "5000 cycles"],
+       "evidence": [{"paragraph_id": "P004", "quote": "the activated carbon baseline retained only 78 % under the same conditions"}],
+       "evidence_level": "direct", "source_id": "10.5555/demo.2024.009"},
+      {"assertion_id": "A3", "text": "PC-A retained more capacitance than the activated carbon baseline under the same conditions.",
+       "subject": "PC-A", "predicate": "greater_than", "object": "activated carbon baseline", "polarity": "positive",
+       "conditions": ["same conditions", "1 A/g", "5000 cycles"],
+       "evidence": [{"paragraph_id": "P004", "quote": "the PC-A electrode retained 92 % of its initial capacitance after 5000 cycles"},
+                    {"paragraph_id": "P004", "quote": "the activated carbon baseline retained only 78 % under the same conditions"}],
+       "evidence_level": "inferred", "source_id": "10.5555/demo.2024.009"},
+      {"assertion_id": "A4", "text": "PC-B retained 85 % of its initial capacitance after 5000 cycles at 2 A/g in an organic electrolyte.",
+       "subject": "PC-B", "predicate": "retains_capacitance", "object": "85 %", "polarity": "positive",
+       "conditions": ["2 A/g", "5000 cycles", "organic electrolyte"],
+       "evidence": [{"paragraph_id": "P005", "quote": "PC-B retained 85 % of its initial capacitance after 5000 cycles"}],
+       "evidence_level": "direct", "source_id": "10.5555/demo.2024.009"},
+      {"assertion_id": "A5", "text": "The resorcinol-derived pore structure of PC-A is more stable than the activated carbon baseline.",
+       "subject": "resorcinol-derived pore structure", "predicate": "more_stable_than", "object": "activated carbon baseline", "polarity": "positive",
+       "conditions": ["author interpretation", "not directly measured"],
+       "evidence": [{"paragraph_id": "P007", "quote": "The higher retention of PC-A suggests that the resorcinol-derived pore structure is more stable than the activated carbon baseline."}],
+       "evidence_level": "inferred", "source_id": "10.5555/demo.2024.009"}
+    ],
+    "source_metadata": {
+      "doi": "10.5555/demo.2024.009",
+      "title": "Cycling stability of porous carbon electrodes",
+      "authors": ["Li Wei", "Zhang Min"],
+      "year": 2024,
+      "version": "1.0",
+      "license": "CC-BY-4.0",
+      "note": "Synthetic metadata for offline demonstration only."
+    },
+    "nanopublication": {
+      "id": "demo-np-09-0001",
+      "template": "nanopub-assertion-evidence",
+      "serialization": "application/json",
+      "assertion_count": 5,
+      "evidence_ref": "evidence",
+      "source_ref": "source_metadata"
+    },
+    "quality_checks": [
+      {"check_id": "QC1", "target": "A1", "check": "assertion_width", "result": "pass", "basis": "single subject/predicate/object with explicit current density and cycle count."},
+      {"check_id": "QC2", "target": "A3", "check": "evidence_level", "result": "pass", "basis": "marked inferred; comparison derived from A1 and A2 under the same conditions."},
+      {"check_id": "QC3", "target": "A5", "check": "overbroad_claim", "result": "warn", "basis": "author interpretation ('suggests') is recorded as inferred, not as a measured fact."},
+      {"check_id": "QC4", "target": "A4", "check": "condition_complete", "result": "pass", "basis": "current density, cycle count and electrolyte are attached."}
+    ]
+  },
+  "uncertainties": [
+    {
+      "kind": "electrolyte_not_reported",
+      "item": "PC-A and activated carbon baseline",
+      "detail": "The material does not state which electrolyte was used in the 1 A/g test.",
+      "resolution": "Recorded only the reported conditions; did not infer the electrolyte."
+    },
+    {
+      "kind": "inferred_assertion",
+      "item": "A3 and A5",
+      "detail": "A3 is a comparison derived from two reported values; A5 is the authors' interpretation.",
+      "resolution": "Marked both as inferred and kept them separate from direct reported assertions."
+    }
+  ]
+}
